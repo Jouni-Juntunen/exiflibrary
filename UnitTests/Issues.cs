@@ -99,12 +99,12 @@ namespace UnitTests
 
             // read back
             var latitude = image.Properties.Get<GPSLatitudeLongitude>(ExifTag.GPSLatitude);
-            Assert.Equal(latitude.Seconds.Numerator, (uint)979);
-            Assert.Equal(latitude.Seconds.Denominator, (uint)45);
+            Assert.Equal((uint)979, latitude.Seconds.Numerator);
+            Assert.Equal((uint)45, latitude.Seconds.Denominator);
 
             var longitude = image.Properties.Get<GPSLatitudeLongitude>(ExifTag.GPSLongitude);
-            Assert.Equal(longitude.Seconds.Numerator, (uint)23306);
-            Assert.Equal(longitude.Seconds.Denominator, (uint)1137);
+            Assert.Equal((uint)23306, longitude.Seconds.Numerator);
+            Assert.Equal((uint)1137, longitude.Seconds.Denominator);
         }
     }
 }
