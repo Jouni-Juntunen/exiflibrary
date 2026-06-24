@@ -80,23 +80,28 @@ namespace ExifLibrary
                 {
                     // Default to ASCII
                     Encoding enc = Encoding.ASCII;
-                    bool hasenc;
-                    if (value.Length < 8)
-                        hasenc = false;
-                    else
+                    bool hasenc = false;
+                    if (value.Length >= 8)
                     {
                         hasenc = true;
                         string encstr = enc.GetString(value, 0, 8);
                         if (string.Compare(encstr, "ASCII\0\0\0", StringComparison.OrdinalIgnoreCase) == 0)
+                        {
                             enc = Encoding.ASCII;
+                        }
                         else if (string.Compare(encstr, "JIS\0\0\0\0\0", StringComparison.OrdinalIgnoreCase) == 0)
+                        {
                             enc = Encoding.GetEncoding("Japanese (JIS 0208-1990 and 0212-1990)");
+                        }
                         else if (string.Compare(encstr, "Unicode\0", StringComparison.OrdinalIgnoreCase) == 0)
+                        {
                             enc = Encoding.Unicode;
+                        }
                         else
+                        {
                             hasenc = false;
+                        }
                     }
-
                     string val = (hasenc ? enc.GetString(value, 8, value.Length - 8) : enc.GetString(value)).Trim('\0');
 
                     return new ExifEncodedString(ExifTag.UserComment, val, enc);
@@ -359,7 +364,9 @@ namespace ExifLibrary
                 return new ExifSByteArray(etag, data);
             }
             if (type == 7) // 7 = UNDEFINED An 8-bit byte that can take any value depending on the field definition.
+            {
                 return new ExifUndefined(etag, value);
+            }
             if (type == 8) // 8 = SSHORT A 16-bit (2-byte) signed integer.
             {
                 return count == 1
