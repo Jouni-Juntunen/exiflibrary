@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
 	<AssemblyName>ExifLibrary</AssemblyName>
 	<Deterministic>true</Deterministic>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -21,7 +21,12 @@
 	<RepositoryUrl>https://github.com/tebjan/exiflibrary</RepositoryUrl>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReadmeFile>docs\README.md</PackageReadmeFile>
+	<ApplicationIcon>ExifLibrary.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ExifLibrary.ico" />
+  </ItemGroup>
 
   <ItemGroup>
 	<None Include="..\README.md" Pack="true" PackagePath="docs\README.md" />
