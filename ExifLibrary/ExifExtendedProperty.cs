@@ -45,7 +45,8 @@ namespace ExifLibrary
                     // UNDEFINED
                     return new ExifInterOperability(tagid, InterOpType.UNDEFINED, 1, new byte[] { (byte)((object)mValue) });
                 }
-                else if (type == typeof(GPSLatitudeRef) || type == typeof(GPSLongitudeRef) ||
+
+                if (type == typeof(GPSLatitudeRef) || type == typeof(GPSLongitudeRef) ||
                     type == typeof(GPSStatus) || type == typeof(GPSMeasureMode) ||
                     type == typeof(GPSSpeedRef) || type == typeof(GPSDirectionRef) ||
                     type == typeof(GPSDistanceRef))
@@ -53,18 +54,20 @@ namespace ExifLibrary
                     // ASCII
                     return new ExifInterOperability(tagid, InterOpType.ASCII, 2, new byte[] { (byte)((object)mValue), 0 });
                 }
-                else if (basetype == typeof(byte))
+
+                if (basetype == typeof(byte))
                 {
                     // BYTE
                     return new ExifInterOperability(tagid, InterOpType.BYTE, 1, new byte[] { (byte)((object)mValue) });
                 }
-                else if (basetype == typeof(ushort))
+
+                if (basetype == typeof(ushort))
                 {
                     // SHORT
                     return new ExifInterOperability(tagid, InterOpType.SHORT, 1, ExifBitConverter.GetBytes((ushort)((object)mValue), BitConverterEx.SystemByteOrder, BitConverterEx.SystemByteOrder));
                 }
-                else
-                    throw new UnknownEnumTypeException();
+
+                throw new UnknownEnumTypeException();
             }
         }
     }
@@ -208,14 +211,17 @@ namespace ExifLibrary
             get
             {
                 if (mTag == ExifTag.ExifVersion || mTag == ExifTag.FlashpixVersion || mTag == ExifTag.InteroperabilityVersion)
-                    return new ExifInterOperability(ExifTagFactory.GetTagID(mTag), InterOpType.UNDEFINED, 4, Encoding.ASCII.GetBytes(mValue));
-                else
                 {
-                    byte[] data = new byte[4];
-                    for (int i = 0; i < 4; i++)
-                        data[i] = byte.Parse(mValue[0].ToString());
-                    return new ExifInterOperability(ExifTagFactory.GetTagID(mTag), InterOpType.UNDEFINED, 4, data);
+                    return new ExifInterOperability(ExifTagFactory.GetTagID(mTag), InterOpType.UNDEFINED, 4, Encoding.ASCII.GetBytes(mValue));
                 }
+
+                byte[] data = new byte[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    data[i] = byte.Parse(mValue[0].ToString());
+                }
+
+                return new ExifInterOperability(ExifTagFactory.GetTagID(mTag), InterOpType.UNDEFINED, 4, data);
             }
         }
     }

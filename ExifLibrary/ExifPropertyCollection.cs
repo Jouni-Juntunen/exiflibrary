@@ -579,9 +579,10 @@ namespace ExifLibrary
             if (lookup.TryGetValue(tag, out lookupitems))
             {
                 if (lookupitems.Count != 0)
+                {
                     return lookupitems[0];
-                else
-                    return null;
+                }
+                //return null;
             }
             return null;
         }

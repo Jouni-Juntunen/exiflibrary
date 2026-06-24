@@ -28,9 +28,10 @@ namespace ExifLibrary
             get
             {
                 if (mName == null || mName.Length == 0)
+                {
                     return ExifTagFactory.GetTagName(mTag);
-                else
-                    return mName;
+                }
+                return mName;
             }
             set
             {
