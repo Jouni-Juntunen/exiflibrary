@@ -391,7 +391,7 @@ namespace ExifLibrary
                     ? new ExifFloat(etag, conv.ToSingle(value, 0))
                     : (ExifProperty)new ExifFloatArray(etag, ExifBitConverter.ToSingleArray(value, (int)count, byteOrder));
             }
-            f (type == 12) // 12 = DOUBLE Double precision (8-byte) IEEE format.
+            if (type == 12) // 12 = DOUBLE Double precision (8-byte) IEEE format.
             {
                 return count == 1
                     ? new ExifDouble(etag, conv.ToDouble(value, 0))
