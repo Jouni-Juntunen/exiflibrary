@@ -271,26 +271,36 @@ namespace ExifLibrary
             byte[] header = new byte[8];
             stream.Seek(0, SeekOrigin.Begin);
             if (stream.Read(header, 0, header.Length) != header.Length)
+            {
                 throw new NotValidImageFileException();
+            }
 
             // JPEG
             if (header[0] == 0xFF && header[1] == 0xD8)
+            {
                 return new JPEGFile(stream, encoding);
+            }
 
             // TIFF
             string tiffHeader = Encoding.ASCII.GetString(header, 0, 4);
             if (tiffHeader == "MM\x00\x2a" || tiffHeader == "II\x2a\x00")
+            {
                 return new TIFFFile(stream, encoding);
+            }
 
             // PNG
             if (header[0] == 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47 &&
                 header[4] == 0x0D && header[5] == 0x0A && header[6] == 0x1A && header[7] == 0x0A)
+            {
                 return new PNGFile(stream, encoding);
+            }
 
             // GIF
             string gifHeader = Encoding.ASCII.GetString(header, 0, 3);
             if (gifHeader == "GIF")
+            {
                 return new GIFFile(stream, encoding);
+            }
 
             throw new NotValidImageFileException();
         }

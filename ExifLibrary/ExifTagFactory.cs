@@ -36,10 +36,7 @@ namespace ExifLibrary
         public static string GetTagName(ExifTag tag)
         {
             string name = Enum.GetName(typeof(ExifTag), tag);
-            if (name == null)
-                return "Unknown";
-            else
-                return name;
+            return name == null ? "Unknown" : name;
         }
 
         /// <summary>
@@ -59,7 +56,9 @@ namespace ExifLibrary
             string ifdname = Enum.GetName(typeof(IFD), GetTagIFD(tag));
             string name = Enum.GetName(typeof(ExifTag), tag);
             if (name == null)
+            {
                 name = "Unknown";
+            }
             string tagidname = GetTagID(tag).ToString();
             return ifdname + ": " + name + " (" + tagidname + ")";
         }

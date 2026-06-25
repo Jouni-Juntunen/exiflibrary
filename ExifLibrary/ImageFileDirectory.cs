@@ -85,9 +85,14 @@ namespace ExifLibrary
 
             // Save strips
             if (stripOffsets.Count != stripLengths.Count)
+            {
                 throw new NotValidTIFFileException();
+            }
+
             for (int i = 0; i < stripOffsets.Count; i++)
+            {
                 ifd.Strips.Add(new TIFFStrip(data, stripOffsets[i], stripLengths[i]));
+            }
 
             // Offset to next ifd
             ifd.NextIFDOffset = conv.ToUInt32(data, offset + 2 + 12 * fieldcount);

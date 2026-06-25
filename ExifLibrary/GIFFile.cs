@@ -456,7 +456,11 @@ namespace ExifLibrary
             while (true)
             {
                 int val = stream.ReadByte();
-                if (val == -1 || val == 0) break;
+                if (val == -1 || val == 0)
+                {
+                    break;
+                }
+
                 byte count = (byte)val;
                 data.Add(Utility.GetStreamBytes(stream, count));
             }
@@ -485,7 +489,11 @@ namespace ExifLibrary
                 var block = Blocks[i];
                 var nextBlock = (i == Blocks.Count - 1 ? null : Blocks[i + 1]);
                 var extension = block as GIFCommentExtension;
-                if (extension == null) continue;
+                if (extension == null)
+                {
+                    continue;
+                }
+
                 using (var memStream = new MemoryStream())
                 {
                     foreach (var subData in extension.Data)
@@ -511,7 +519,11 @@ namespace ExifLibrary
                     {
                         var block = new GIFCommentExtension();
                         var interop = gifComment.Interoperability;
-                        if (interop.Count == 0) continue;
+                        if (interop.Count == 0)
+                        {
+                            continue;
+                        }
+
                         var subBlockCount = (interop.Count - 1) / 255 + 1;
                         block.Data = new byte[subBlockCount][];
                         int offset = 0;
