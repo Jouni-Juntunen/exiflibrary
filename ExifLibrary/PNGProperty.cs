@@ -32,12 +32,14 @@ namespace ExifLibrary
             get
             {
                 Encoding latin1 = Encoding.GetEncoding(28591);
+                byte[] keyword = latin1.GetBytes(Keyword);                       
+                byte[] value;
+                byte[] data;
                 if (Compressed)
-                {
-                    byte[] keyword = latin1.GetBytes(Keyword);
-                    byte[] value = Utility.CompressString(mValue, latin1);
+                {                    
+                    value = Utility.CompressString(mValue, latin1);
 
-                    byte[] data = new byte[keyword.Length + 2 + value.Length];
+                    data = new byte[keyword.Length + 2 + value.Length];
                     Array.Copy(keyword, 0, data, 0, keyword.Length);
                     data[keyword.Length] = 0; // Null separator
                     data[keyword.Length + 1] = 0; // Compression method, 0 for zlib
@@ -45,18 +47,15 @@ namespace ExifLibrary
 
                     return new ExifInterOperability((ushort)mTag, InterOpType.ASCII, (uint)data.Length, data);
                 }
-                else
-                {
-                    byte[] keyword = latin1.GetBytes(Keyword);
-                    byte[] value = latin1.GetBytes(mValue);
+                                
+                value = latin1.GetBytes(mValue);
 
-                    byte[] data = new byte[keyword.Length + 1 + value.Length];
-                    Array.Copy(keyword, 0, data, 0, keyword.Length);
-                    data[keyword.Length] = 0; // Null separator
-                    Array.Copy(value, 0, data, keyword.Length + 1, value.Length);
+                data = new byte[keyword.Length + 1 + value.Length];
+                Array.Copy(keyword, 0, data, 0, keyword.Length);
+                data[keyword.Length] = 0; // Null separator
+                Array.Copy(value, 0, data, keyword.Length + 1, value.Length);
 
-                    return new ExifInterOperability((ushort)mTag, InterOpType.ASCII, (uint)data.Length, data);
-                }
+                return new ExifInterOperability((ushort)mTag, InterOpType.ASCII, (uint)data.Length, data);
             }
         }
     }
@@ -95,11 +94,16 @@ namespace ExifLibrary
             {
                 Encoding latin1 = Encoding.GetEncoding(28591);
                 byte[] keyword = latin1.GetBytes(Keyword);
-                byte[] value = new byte[0];
+                byte[] value;
                 if (Compressed)
+                {
                     value = Utility.CompressString(mValue, Encoding.UTF8);
+                }
                 else
+                {
                     value = Encoding.UTF8.GetBytes(mValue);
+                }
+
                 byte[] language = latin1.GetBytes(Language);
                 byte[] translatedKeyword = Encoding.UTF8.GetBytes(TranslatedKeyword);
 

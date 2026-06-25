@@ -40,13 +40,19 @@ namespace ExifLibrary
                 // Length of chunk data
                 byte[] lengthBytes = new byte[4];
                 if (stream.Read(lengthBytes, 0, 4) != 4)
+                {
                     throw new NotValidPNGFileException();
+                }
+
                 uint length = conv.ToUInt32(lengthBytes, 0);
 
                 // Chunk type
                 byte[] typeBytes = new byte[4];
                 if (stream.Read(typeBytes, 0, 4) != 4)
+                {
                     throw new NotValidPNGFileException();
+                }
+
                 string type = Encoding.ASCII.GetString(typeBytes);
 
                 // Chunk data
@@ -55,13 +61,19 @@ namespace ExifLibrary
                 // CRC of type name and data
                 byte[] crcBytes = new byte[4];
                 if (stream.Read(crcBytes, 0, 4) != 4)
+                {
                     throw new NotValidPNGFileException();
+                }
+
                 uint crc = conv.ToUInt32(crcBytes, 0);
 
                 // Add to chunks list
                 PNGChunk chunk = new PNGChunk(type, data);
                 if (chunk.CRC != crc)
+                {
                     throw new NotValidPNGFileException();
+                }
+
                 Chunks.Add(chunk);
             }
 
@@ -214,9 +226,13 @@ namespace ExifLibrary
                                         Array.Copy(textChunk.Data, sepTransIndex + 1, valueBytes, 0, valueBytes.Length);
                                         string value = string.Empty;
                                         if (compressed)
+                                        {
                                             value = Utility.DecompressString(valueBytes, Encoding.UTF8);
+                                        }
                                         else
+                                        {
                                             value = Encoding.UTF8.GetString(valueBytes);
+                                        }
 
                                         Properties.Add(new PNGInternationalText(TagFromKeyword(keyword), keyword, value, compressed, lang, trans));
 
@@ -249,27 +265,47 @@ namespace ExifLibrary
         private ExifTag TagFromKeyword(string keyword)
         {
             if (string.Compare(keyword, "Title", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGTitle;
-            else if (string.Compare(keyword, "Author", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Author", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGAuthor;
-            else if (string.Compare(keyword, "Description", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Description", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGDescription;
-            else if (string.Compare(keyword, "Copyright", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Copyright", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGCopyright;
-            else if (string.Compare(keyword, "Creation Time", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Creation Time", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGCreationTime;
-            else if (string.Compare(keyword, "Software", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Software", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGSoftware;
-            else if (string.Compare(keyword, "Disclaimer", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Disclaimer", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGDisclaimer;
-            else if (string.Compare(keyword, "Warning", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Warning", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGWarning;
-            else if (string.Compare(keyword, "Source", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Source", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGSource;
-            else if (string.Compare(keyword, "Comment", StringComparison.OrdinalIgnoreCase) == 0)
+            }
+            if (string.Compare(keyword, "Comment", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 return ExifTag.PNGComment;
-            else
-                return ExifTag.PNGText;
+            }
+            
+            return ExifTag.PNGText;
         }
         /// <summary>
         /// Writes metadata back into PNG chunks.
@@ -286,9 +322,13 @@ namespace ExifLibrary
                 {
                     PNGText exprop = prop as PNGText;
                     if (!exprop.Compressed)
+                    {
                         Chunks.Insert(Chunks.Count - 1, new PNGChunk("tEXt", prop.Interoperability.Data));
+                    }
                     else
+                    {
                         Chunks.Insert(Chunks.Count - 1, new PNGChunk("zTXt", prop.Interoperability.Data));
+                    }
                 }
                 else if (prop is PNGInternationalText)
                 {
