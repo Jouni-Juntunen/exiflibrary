@@ -623,7 +623,6 @@ namespace ExifLibrary
             int thumblength = 0;
             int thumbtype = -1;
 
-
             // Read IFDs
             while (ifdqueue.Count != 0)
             {
@@ -699,10 +698,11 @@ namespace ExifLibrary
                     }
 
                     // Determine the number of bytes we need to read
-                    uint baselength = (type != 11 && type != 12)
+                    // todo: why are FLOAT and DOUBLE not supported? Maybe they are not used in Exif?
+                    uint baselength = (type != (ushort)InterOpType.FLOAT && type != (ushort)InterOpType.DOUBLE)
                         ? baselength = Utility.GetBaseLength(type) // for all other types except Float 11 and Double 12
                         : 0;
-                    if (baselength == 0)                    
+                    if (baselength == 0)
                     {
                         continue; // Unknown or invalid type: skip and keep going
                     }

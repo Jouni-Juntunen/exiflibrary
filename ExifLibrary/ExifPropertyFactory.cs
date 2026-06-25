@@ -326,33 +326,33 @@ namespace ExifLibrary
                 }
             }
 
-            if (type == 1) // 1 = BYTE An 8-bit unsigned integer.
+            if (type == (ushort)InterOpType.BYTE) // 1 = BYTE An 8-bit unsigned integer.
             {
                 return count == 1 ? new ExifByte(etag, value[0]) : (ExifProperty)new ExifByteArray(etag, value);
             }
-            if (type == 2) // 2 = ASCII An 8-bit byte containing one 7-bit ASCII code. 
+            if (type == (ushort)InterOpType.ASCII) // 2 = ASCII An 8-bit byte containing one 7-bit ASCII code. 
             {
                 return new ExifAscii(etag, ExifBitConverter.ToAscii(value, encoding), encoding);
             }
-            if (type == 3) // 3 = SHORT A 16-bit (2-byte) unsigned integer.
+            if (type == (ushort)InterOpType.SHORT) // 3 = SHORT A 16-bit (2-byte) unsigned integer.
             {
                 return count == 1
                     ? new ExifUShort(etag, conv.ToUInt16(value, 0))
                     : (ExifProperty)new ExifUShortArray(etag, ExifBitConverter.ToUShortArray(value, (int)count, byteOrder));
             }
-            if (type == 4) // 4 = LONG A 32-bit (4-byte) unsigned integer.
+            if (type == (ushort)InterOpType.LONG) // 4 = LONG A 32-bit (4-byte) unsigned integer.
             {
                 return count == 1
                     ? new ExifUInt(etag, conv.ToUInt32(value, 0))
                     : (ExifProperty)new ExifUIntArray(etag, ExifBitConverter.ToUIntArray(value, (int)count, byteOrder));
             }
-            if (type == 5) // 5 = RATIONAL Two LONGs. The first LONG is the numerator and the second LONG expresses the denominator.
+            if (type == (ushort)InterOpType.RATIONAL) // 5 = RATIONAL Two LONGs. The first LONG is the numerator and the second LONG expresses the denominator.
             {
                 return count == 1
                     ? new ExifURational(etag, ExifBitConverter.ToURational(value, byteOrder))
                     : (ExifProperty)new ExifURationalArray(etag, ExifBitConverter.ToURationalArray(value, (int)count, byteOrder));
             }
-            if (type == 6) // 1 = SBYTE An 8-bit signed integer.
+            if (type == (ushort)InterOpType.SBYTE) // 1 = SBYTE An 8-bit signed integer.
             {
                 if (count == 1)
                 {
@@ -363,35 +363,35 @@ namespace ExifLibrary
                 Buffer.BlockCopy(value, 0, data, 0, (int)count);
                 return new ExifSByteArray(etag, data);
             }
-            if (type == 7) // 7 = UNDEFINED An 8-bit byte that can take any value depending on the field definition.
+            if (type == (ushort)InterOpType.UNDEFINED) // 7 = UNDEFINED An 8-bit byte that can take any value depending on the field definition.
             {
                 return new ExifUndefined(etag, value);
             }
-            if (type == 8) // 8 = SSHORT A 16-bit (2-byte) signed integer.
+            if (type == (ushort)InterOpType.SSHORT) // 8 = SSHORT A 16-bit (2-byte) signed integer.
             {
                 return count == 1
                     ? new ExifSShort(etag, conv.ToInt16(value, 0))
                     : (ExifProperty)new ExifSShortArray(etag, ExifBitConverter.ToSShortArray(value, (int)count, byteOrder));
             }
-            if (type == 9) // 9 = SLONG A 32-bit (4-byte) signed integer (2's complement notation).
+            if (type == (ushort)InterOpType.SLONG) // 9 = SLONG A 32-bit (4-byte) signed integer (2's complement notation).
             {
                 return count == 1
                     ? new ExifSInt(etag, conv.ToInt32(value, 0))
                     : (ExifProperty)new ExifSIntArray(etag, ExifBitConverter.ToSIntArray(value, (int)count, byteOrder));
             }
-            if (type == 10) // 10 = SRATIONAL Two SLONGs. The first SLONG is the numerator and the second SLONG is the denominator.
+            if (type == (ushort)InterOpType.SRATIONAL) // 10 = SRATIONAL Two SLONGs. The first SLONG is the numerator and the second SLONG is the denominator.
             {
                 return count == 1
                     ? new ExifSRational(etag, ExifBitConverter.ToSRational(value, byteOrder))
                     : (ExifProperty)new ExifSRationalArray(etag, ExifBitConverter.ToSRationalArray(value, (int)count, byteOrder));
             }
-            if (type == 11) // 11 = FLOAT Single precision (4-byte) IEEE format.
+            if (type == (ushort)InterOpType.FLOAT) // 11 = FLOAT Single precision (4-byte) IEEE format.
             {
                 return count == 1
                     ? new ExifFloat(etag, conv.ToSingle(value, 0))
                     : (ExifProperty)new ExifFloatArray(etag, ExifBitConverter.ToSingleArray(value, (int)count, byteOrder));
             }
-            if (type == 12) // 12 = DOUBLE Double precision (8-byte) IEEE format.
+            if (type == (ushort)InterOpType.DOUBLE) // 12 = DOUBLE Double precision (8-byte) IEEE format.
             {
                 return count == 1
                     ? new ExifDouble(etag, conv.ToDouble(value, 0))

@@ -221,31 +221,31 @@ namespace ExifLibrary
         /// <param name="typeIdentifier">Type identifier.</param>
         public static uint GetBaseLength(ushort typeIdentifier)
         {
-            if (typeIdentifier == 1 || typeIdentifier == 6) // BYTE and SBYTE
+            if (typeIdentifier == (ushort)InterOpType.BYTE || typeIdentifier == (ushort)InterOpType.SBYTE) // BYTE and SBYTE
             {
                 return 1;
             }
-            if (typeIdentifier == 2 || typeIdentifier == 7) // ASCII and UNDEFINED
+            if (typeIdentifier == (ushort)InterOpType.ASCII || typeIdentifier == (ushort)InterOpType.UNDEFINED) // ASCII and UNDEFINED
             {
                 return 1;
             }
-            if (typeIdentifier == 3 || typeIdentifier == 8) // SHORT and SSHORT
+            if (typeIdentifier == (ushort)InterOpType.SHORT || typeIdentifier == (ushort)InterOpType.SSHORT) // SHORT and SSHORT
             {
                 return 2;
             }
-            if (typeIdentifier == 4 || typeIdentifier == 9) // LONG and SLONG
+            if (typeIdentifier == (ushort)InterOpType.LONG || typeIdentifier == (ushort)InterOpType.SLONG) // LONG and SLONG
             {
                 return 4;
             }
-            if (typeIdentifier == 5 || typeIdentifier == 10) // RATIONAL (2xLONG) and SRATIONAL (2xSLONG)
+            if (typeIdentifier == (ushort)InterOpType.RATIONAL || typeIdentifier == (ushort)InterOpType.SRATIONAL) // RATIONAL (2xLONG) and SRATIONAL (2xSLONG)
             {
                 return 8;
             }
-            if (typeIdentifier == 11) // FLOAT
+            if (typeIdentifier == (ushort)InterOpType.FLOAT) // FLOAT
             {
                 return 4;
             }
-            if (typeIdentifier == 12) // DOUBLE
+            if (typeIdentifier == (ushort)InterOpType.DOUBLE) // DOUBLE
             {
                 return 8;
             }
