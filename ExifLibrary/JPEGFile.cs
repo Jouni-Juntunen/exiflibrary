@@ -1119,25 +1119,34 @@ namespace ExifLibrary
 
                 // Fields containing offsets to other IFDs
                 // Just store their offets, we will write the values later on when we know the lengths of IFDs
-                if (ifdtype == IFD.Zeroth && interop.TagID == 0x8769)
+                if (ifdtype == IFD.Zeroth)
                 {
-                    exifIFDFieldOffset = stream.Position;
+                    if (interop.TagID == 0x8769)
+                    {
+                        exifIFDFieldOffset = stream.Position;
+                    }
+                    else if (interop.TagID == 0x8825)
+                    {
+                        gpsIFDFieldOffset = stream.Position;
+                    }
                 }
-                else if (ifdtype == IFD.Zeroth && interop.TagID == 0x8825)
+                else if (ifdtype == IFD.EXIF)
                 {
-                    gpsIFDFieldOffset = stream.Position;
+                    if (interop.TagID == 0xa005)
+                    {
+                        interopIFDFieldOffset = stream.Position;
+                    }
                 }
-                else if (ifdtype == IFD.EXIF && interop.TagID == 0xa005)
+                else if (ifdtype == IFD.First)
                 {
-                    interopIFDFieldOffset = stream.Position;
-                }
-                else if (ifdtype == IFD.First && interop.TagID == 0x201)
-                {
-                    thumbOffsetLocation = stream.Position;
-                }
-                else if (ifdtype == IFD.First && interop.TagID == 0x202)
-                {
-                    thumbSizeLocation = stream.Position;
+                    if (interop.TagID == 0x201)
+                    {
+                        thumbOffsetLocation = stream.Position;
+                    }
+                    else if (interop.TagID == 0x202)
+                    {
+                        thumbSizeLocation = stream.Position;
+                    }
                 }
 
                 // Write 4 byte field value or field data
