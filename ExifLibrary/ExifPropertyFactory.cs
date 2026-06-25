@@ -133,11 +133,15 @@ namespace ExifLibrary
                 if (tag == 0x9214) // SubjectArea
                 {
                     if (count == 3)
+                    {
                         return new ExifCircularSubjectArea(ExifTag.SubjectArea, ExifBitConverter.ToUShortArray(value, (int)count, byteOrder));
-                    else if (count == 4)
+                    }
+                    if (count == 4)
+                    {
                         return new ExifRectangularSubjectArea(ExifTag.SubjectArea, ExifBitConverter.ToUShortArray(value, (int)count, byteOrder));
-                    else // count == 2
-                        return new ExifPointSubjectArea(ExifTag.SubjectArea, ExifBitConverter.ToUShortArray(value, (int)count, byteOrder));
+                    }
+                    // count == 2
+                    return new ExifPointSubjectArea(ExifTag.SubjectArea, ExifBitConverter.ToUShortArray(value, (int)count, byteOrder));
                 }
                 if (tag == 0xa210) // FocalPlaneResolutionUnit
                 {
