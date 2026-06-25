@@ -101,7 +101,6 @@ namespace ExifLibrary
         protected internal TIFFFile(MemoryStream stream, System.Text.Encoding encoding)
         {
             Format = ImageFileFormat.TIFF;
-            IFDs = new List<ImageFileDirectory>();
             Encoding = encoding;
 
             // Read the entire stream
@@ -111,9 +110,12 @@ namespace ExifLibrary
             TIFFHeader = TIFFHeader.FromBytes(data, 0);
             uint nextIFDOffset = TIFFHeader.IFDOffset;
             if (nextIFDOffset == 0)
+            {
                 throw new NotValidTIFFileException("The first IFD offset is zero.");
+            }
 
             // Read IFDs in order
+            IFDs = new List<ImageFileDirectory>();
             while (nextIFDOffset != 0)
             {
                 ImageFileDirectory ifd = ImageFileDirectory.FromBytes(data, nextIFDOffset, TIFFHeader.ByteOrder);
@@ -159,7 +161,9 @@ namespace ExifLibrary
             // Write TIFF header
             uint ifdoffset = 8;
             // Byte order
-            stream.Write((BitConverterEx.SystemByteOrder == BitConverterEx.ByteOrder.LittleEndian ? new byte[] { 0x49, 0x49 } : new byte[] { 0x4D, 0x4D }), 0, 2);
+            stream.Write((BitConverterEx.SystemByteOrder == BitConverterEx.ByteOrder.LittleEndian
+                ? new byte[] { 0x49, 0x49 }
+                : new byte[] { 0x4D, 0x4D }), 0, 2);
             // TIFF ID
             stream.Write(conv.GetBytes((ushort)42), 0, 2);
             // Offset to 0th IFD, will be corrected below
@@ -218,7 +222,9 @@ namespace ExifLibrary
                 {
                     ushort tag = ifd.Fields[j].Tag;
                     if (tag == 273 || tag == 279)
+                    {
                         ifd.Fields.RemoveAt(j);
+                    }
                 }
                 // Write new strip tags
                 ifd.Fields.Add(new ImageFileDirectoryEntry(273, 4, (uint)ifd.Strips.Count, stripOffsets));
@@ -255,7 +261,9 @@ namespace ExifLibrary
                     {
                         stream.Write(data, 0, data.Length);
                         for (int j = data.Length; j < 4; j++)
+                        {
                             stream.WriteByte(0);
+                        }
                     }
                     else
                     {
